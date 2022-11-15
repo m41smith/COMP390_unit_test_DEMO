@@ -1,6 +1,7 @@
 import util_functions
 import pytest
 import math
+from io import StringIO
 
 """ this file contains all unit tests """
 # pytest
@@ -55,3 +56,20 @@ def test_convert_string_to_numerical():
     assert util_functions.convert_string_to_numerical(str(10/3)) == 10/3
     assert util_functions.convert_string_to_numerical(3 or 7) == 3
     assert util_functions.convert_string_to_numerical(3 and 7) == 7
+
+
+def test_enter_first_name(capfd, monkeypatch):
+    test_string = 'joe'
+    simulated_input = StringIO(test_string)
+    monkeypatch.setattr('sys.stdin', simulated_input)
+    assert util_functions.enter_first_name() == 'joe'
+    out, err = capfd.readouterr()
+    assert out == f'Please enter your first name: '
+
+    test_string = 'joe8'
+    simulated_input = StringIO(test_string)
+    monkeypatch.setattr('sys.stdin', simulated_input)
+    assert util_functions.enter_first_name() is None
+    out, err = capfd.readouterr()
+    assert out == f'Please enter your first name: The name \'{test_string}\' is not valid.\n'
+

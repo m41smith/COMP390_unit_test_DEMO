@@ -45,3 +45,17 @@ def convert_string_to_numerical(in_string):
     elif string_is_float(in_string):
         return float(in_string)
     return None
+
+
+def validate_user_input(user_input):
+    valid = user_input.isalpha()
+    return valid
+
+def enter_first_name():
+    input_name = input('Please enter your first name: ')
+    name_validate = validate_user_input(input_name)
+    if name_validate:
+        return input_name
+    else:
+        print(f'The name \'{input_name}\' is not valid.')
+        return None
