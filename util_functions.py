@@ -51,6 +51,7 @@ def validate_user_input(user_input):
     valid = user_input.isalpha()
     return valid
 
+
 def enter_first_name():
     input_name = input('Please enter your first name: ')
     name_validate = validate_user_input(input_name)
@@ -59,3 +60,9 @@ def enter_first_name():
     else:
         print(f'The name \'{input_name}\' is not valid.')
         return None
+
+
+def extract_file_content(file_name):
+    with open(file_name, 'r') as fileIO:
+        first_line_of_file = fileIO.readline()
+        print(f'file content : {first_line_of_file}')

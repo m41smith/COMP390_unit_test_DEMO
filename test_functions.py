@@ -2,6 +2,7 @@ import util_functions
 import pytest
 import math
 from io import StringIO
+from testfixtures import TempDirectory
 
 """ this file contains all unit tests """
 # pytest
@@ -73,3 +74,18 @@ def test_enter_first_name(capfd, monkeypatch):
     out, err = capfd.readouterr()
     assert out == f'Please enter your first name: The name \'{test_string}\' is not valid.\n'
 
+
+def test_extract_file_contents(capfd):
+    with TempDirectory() as tempdir:
+        temp_file = 'test.txt'
+        test_line = b'Hello'
+        tempdir.write(temp_file, test_line)
+        file_path = tempdir.path + '\\' + temp_file
+        util_functions.extract_file_content(file_path)
+    out, err = capfd.readouterr()
+    assert out == f'file content : Hello\n'
+
+    missing_file = 'missing_file.txt'
+    with pytest.raises(FileNotFoundError) as file_error:
+        util_functions.extract_file_content(missing_file)
+    assert file_error.type is FileNotFoundError
